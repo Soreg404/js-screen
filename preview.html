@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>template</title>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="#" rel="stylesheet" type="text/css" />
+
+	<link rel="shortcut icon" type="image/x-icon" href="" />
+	
+	<meta name="theme-color" content="#dc143c">
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="screen.js"></script>
+	
+	<style>
+		* {margin: 0;}
+		#sc {
+			width: 100vw;
+			height: 100vh;
+			background-color: #222;
+		}
+		#sc canvas {
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+	
+</head>
+
+<body>
+
+	<div id="content">
+	
+		<div id="sc"></div>
+	
+	</div>
+	
+	<script>
+		
+		var points_count = 1000;
+		
+		
+		var screen = new CanvScreen('sc');
+		
+		window.onresize = () => {
+			screen.resizeRatio = screen.width/screen.height;
+			screen.resizeCanv(0);
+		}; window.onresize();
+		
+		var points = [];
+		const PI = 3.141592;
+		var sq_i = 0;
+		var px = 1/screen.width;
+		var py = 1/screen.height;
+		
+		function sin(x) { return Math.sin(x); }
+		function cos(x) { return Math.cos(x); }
+		
+		function getFunctions(center_x, center_y, a, v = 1) {
+			return {
+				x: center_x + cos(a)*.3 + cos(a*10)*.1 + cos(a*40)*.01,
+				y: center_y + sin(a)*.3 + sin(a*12)*.08 + sin(a*37)*.004
+			};
+		}
+		
+		var main_interval = setInterval(MAIN_LOOP, 5);
+		function MAIN_LOOP() {
+			
+			screen.clear();
+			
+			points = [];
+			let j = 0;
+			for(let i = 0; i < 2*PI; i+=PI/(points_count / 2)) {
+
+				points.push(getFunctions(.5, .5, i));
+				
+				screen.drawRect(points[j].x, points[j].y, 3 * px, 3 * py);
+				j++;
+			}
+			if(sq_i >= j) sq_i = 0;
+			screen.drawRect(points[sq_i].x - 5*px, points[sq_i].y - 5*py, 14*px, 14*px, false, 'dc143c' , 2);
+			sq_i++;
+			
+		} MAIN_LOOP;
+		
+		
+	</script>
+	
+</body>
+
+
+</html>
