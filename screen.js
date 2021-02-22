@@ -6,6 +6,7 @@ class CanvScreen {
 	width = 20;
 	height = 20;
 	parentElementHandle;
+	resizeElement;
 	canvasHandle;
 	context;
 	resizeRatio = 1;
@@ -13,6 +14,7 @@ class CanvScreen {
 	
 	constructor(elementID = undefined) {
 		this.parentElementHandle = undefined;
+		this.resizeElement = undefined;
 		this.canvasHandle = undefined;
 		this.context = undefined;
 		this.inited = false;
@@ -46,8 +48,8 @@ class CanvScreen {
 	}
 	
 	resizeCanv(mode = 0, ratio = this.resizeRatio) { if(!this.inited) return;
-		let dWidth = this.parentElementHandle.width(),
-		dHeight = this.parentElementHandle.height(),
+		let dWidth = $('#'+this.resizeElement).length != 0 ? $('#'+this.resizeElement).width() : this.parentElementHandle.width(),
+		dHeight = $('#'+this.resizeElement).length != 0 ? $('#'+this.resizeElement).height() : this.parentElementHandle.height(),
 		prefWidth = dHeight * ratio,
 		prefHeight = dWidth / ratio;
 		
